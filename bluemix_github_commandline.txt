@@ -1,0 +1,30 @@
+git clone https://github.com/ibmecod/nodejs-cloudant.git
+
+bx login -a https://api.ng.bluemix.net      // US South
+bx login -a https://api.eu-gb.bluemix.net   // United Kingdom
+bx login -a https://api.eu-de.bluemix.net   // Germany
+bx login -a https://api.au-syd.bluemix.net  // Sydney
+$  bx service offerings....to see the service available in bluemix 
+$ bx service create cloudantNoSQLDB Lite myCloudantDB
+cloudantNoSQLDB is the name of the service in the catalog.
+Lite is the desired service plan. The Lite plan provides a free NoSQL database for nonproduction use.
+myCloudantDB is the name to assign to the service instance. This name needs to be unique only within the Cloud Foundry space. 
+
+$ bx app push favapp-tor-0517 -c "node app.js" -m 128M --no-manifest --no-start
+Change the application name favapp-tor-0517 in the example to a customized name with your initials and date.
+-c "node app.js" is the command to start the application.
+
+-m 128M allocates 128M memory to the application.
+
+--no-manifest tells the CLI to ignore the manifest file in the current directory, which allows you to bind the service that was just created to the app.
+
+--no-start tells Bluemix not to automatically start the application after upload.
+
+$ bx service bind favapp-tor-0517 myCloudantDB
+favapp-tor-0517: change this to the name of your application.
+
+myCloudantDB is the name of the service instance you created. If you changed this name previously, be sure to use the correct name.
+start favapp-tor-0517
+Start the application by running the following command.
+$ bx app delete favapp-tor-0517 -r 
+$ bx service delete myCloudantDB
